@@ -29,9 +29,10 @@ function findAncestors(arr, id) {
 
   useEffect(() => {
     storedData = JSON.parse(localStorage.getItem('familyTree'));
+    if(findObjectById(storedData, person.id) == undefined) return
     setSuccessors(findObjectById(storedData, person.id).children)
     setAncestors(findAncestors(storedData, person.id))
-  }, [isAdding, isEditing]);
+  }, [isAdding, isEditing, isAddingAnc]);
 
   const handleEdit = () => {
     setIsEditing(!isEditing);
@@ -41,8 +42,6 @@ function findAncestors(arr, id) {
     if(id == 1){setIsAdding(!isAdding);}
     else setIsAddingAnc(!isAddingAnc);
   };
-
-  //TODO: ADDING ANCESTORS, SEARCH
 
   const addChild = () => {
     storedData = JSON.parse(localStorage.getItem('familyTree'));

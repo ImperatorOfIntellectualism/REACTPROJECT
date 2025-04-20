@@ -20,6 +20,8 @@ const App = () => {
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('familyTree'));
+    console.log(storedData)
+    if(storedData == undefined) return
     if (storedData.length != 0) {
       setPeople(storedData)
     } else {
@@ -28,6 +30,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if(people != undefined) return
     if(people.length != 0){
     localStorage.setItem('familyTree', JSON.stringify(people))
     }
@@ -44,19 +47,21 @@ const App = () => {
     setPeople(storedData)
   };
 
-  const base = people.filter((_, index) => index === 0);
+  let base = null
+  if(people != undefined ) { base = people.filter((_, index) => index === 0);}
 
   return (
     <div>
       <h1>Генеалогическое древо</h1>
       <Search />
       <div>
-        {base.map((person) => (
+        {base != null ? base.map((person) => (
           <Person
             key={person.id}
             person={person}
+            updatePerson={updatePerson}
           />
-        ))}
+        )) : null}
       </div>
     </div>
   );
